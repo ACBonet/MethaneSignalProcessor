@@ -8,10 +8,10 @@ def main():
     parser.add_argument('--dir', type=str, default='.', help="Root directory (default: current folder)")
     args = parser.parse_args()
 
-    # Compatible with .py, .pyz, .exe
-    base_path = os.path.dirname(sys.argv[0])
+    # Compatible with .py, .pyz and .exe inside /dist
+    base_path = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 
-    raw_dir = os.path.join(base_path, "Raw data")
+    raw_dir = os.path.join(base_path, "raw_data")
     output_dir = os.path.join(base_path, "Processed data")
     os.makedirs(output_dir, exist_ok=True)
 
