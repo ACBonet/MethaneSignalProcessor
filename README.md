@@ -9,72 +9,64 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 📦 CH4 Signal Processor
 ├── main.py                 # Main CLI entry point
 ├── inc/functions.py       # Processing logic
-├── raw_data/              # Input .txt files
+├── Raw data/              # Input .txt files
 ├── Processed data/        # Output .txt and plots
-├── Dockerfile             # Docker build for Windows .exe
-├── build_exe.sh / .bat    # Helper scripts for Docker build
+├── dist/                  # Compiled executable output
+├── build_exe.bat      # Script to build .exe using PyInstaller
 ├── requirements.txt       # Python dependencies
 └── README.md              # Project documentation
 
 🧰 Requirements
 ---------------
 
-- Python ≥ 3.8 (only needed for `.py` or `.pyz` usage)
-- Docker Desktop (for compiling the `.exe`)
-- Git (for cloning the repository)
+- Python ≥ 3.8
+- pip (Python package manager)
+- Git (to clone the repository)
+
+> To build the `.exe`, PyInstaller must be installed (automatically handled by the `.bat` script).
 
 🪟 How to Use on Windows
--------------------------
+------------------------
 
 🔹 Option 1 – Use the `.exe`
 
-Once compiled, just double-click the `main.exe`, or run it from the terminal:
+After compilation, simply double-click `main.exe` located in the `dist/` folder, or run it from the terminal:
 
-    main.exe
+    dist\main.exe
 
-You’ll be prompted to choose whether to process a specific file or all `.txt` files inside the `Raw data/` folder.
+You’ll be prompted to choose whether to process a specific file or all `.txt` files in the `Raw data/` folder.  
+The processed data will be saved in `Processed data/`.
 
-🔹 Option 2 – Compile the `.exe` with Docker (`build_exe.bat`)
+🔹 Option 2 – Compile the `.exe` with `build_windows.bat`
 
-To build the executable from source on Windows:
+To generate the executable from source:
 
-1. Install Docker Desktop for Windows
-2. Make sure Docker is running
-3. Double-click `build_exe.bat`
-   (or run it from the terminal inside the project folder)
+1. Install Python from https://www.python.org and make sure to check "Add to PATH"
+2. Open the project folder
+3. Double-click `build_windows.bat`
+   (or run it from terminal: `.uild_windows.bat`)
 
-The generated `.exe` will be saved to the `dist/` folder.
-
-🍏🐧 How to Compile from macOS/Linux Using Docker
-------------------------------------------------
-
-1. Install Docker Desktop and ensure it's running
-2. Open a terminal and run:
-
-    chmod +x build_exe.sh
-    ./build_exe.sh
-
-This will build the Docker image and generate the `.exe` in `dist/main.exe`.
+This will create the executable at `dist/main.exe`.  
+It expects the `Raw data/` folder to be at the same level as `dist/`.
 
 🧪 Usage Instructions
 ---------------------
 
-Run from the terminal:
+Run from the terminal (depending on version used):
 
-    python main.py --dir .             # for Python version
-    ./main.exe                         # for Windows .exe version
+    python main.py --dir .         # for direct Python usage
+    dist\main.exe                 # for the compiled executable
 
-The script will:
+The tool will:
 
-- Load `.txt` files from the `raw_data/` folder
+- Load `.txt` files from `Raw data/`
 - Apply signal filtering and peak correction
-- Save cleaned `.txt` data and plots into `Processed data/`
+- Save processed results and plots to `Processed data/`
 
 🧼 Notes
 --------
 
-- The `.exe` is compiled using the `cdrx/pyinstaller-windows` Docker image
-- All results are saved in `Processed data/`
-- A `.gitignore` file is included to avoid tracking generated or system files
+- The executable assumes the folder structure is preserved (`dist/` next to `Raw data/`)
+- A `.gitignore` file is included to avoid committing generated files
 
 
