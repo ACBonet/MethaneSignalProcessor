@@ -1,9 +1,16 @@
 @echo off
-echo Building Docker image...
-docker build -t py2exe .
+echo Checking Python installation...
+where python >nul 2>nul || (
+    echo Python is not installed or not in PATH.
+    pause
+    exit /b
+)
 
-echo Running container to build .exe...
-docker run --rm -v %cd%:/src py2exe
+echo Installing dependencies...
+pip install -r requirements.txt
 
-echo Executable generated: dist\main.exe
+echo Compiling CH4 executable...
+pyinstaller --onefile --add-data "Raw data;Raw data" main.py
+
+echo Done! Executable created at dist\main.exe
 pause

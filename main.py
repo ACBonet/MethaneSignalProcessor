@@ -8,17 +8,13 @@ def main():
     parser.add_argument('--dir', type=str, default='.', help="Root directory (default: current folder)")
     args = parser.parse_args()
 
-    # Detect base path depending on whether we run from .py or bundled .exe
-    if getattr(sys, 'frozen', False):
-        base_path = sys._MEIPASS  # path used by PyInstaller
-    else:
-        base_path = os.path.abspath(os.path.dirname(__file__))
+    # Compatible with .py, .pyz, .exe
+    base_path = os.path.dirname(sys.argv[0])
 
     raw_dir = os.path.join(base_path, "Raw data")
     output_dir = os.path.join(base_path, "Processed data")
     os.makedirs(output_dir, exist_ok=True)
 
-    # Ask the user if they want to process a specific file
     answer = input("Do you want to process a specific file? (y/n): ").strip().lower()
 
     if answer == 'y':
