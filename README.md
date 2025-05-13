@@ -11,7 +11,6 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 ├── inc/functions.py       # Processing logic
 ├── Raw data/              # Input .txt files
 ├── Processed data/        # Output .txt and plots
-├── dist/                  # Compiled executable output
 ├── build_exe.bat      # Script to build .exe using PyInstaller
 ├── requirements.txt       # Python dependencies
 └── README.md              # Project documentation
@@ -21,7 +20,6 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 
 - Python ≥ 3.8
 - pip (Python package manager)
-- Git (to clone the repository)
 
 > To build the `.exe`, PyInstaller must be installed (automatically handled by the `.bat` script).
 
@@ -30,24 +28,24 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 
 🔹 Option 1 – Use the `.exe`
 
-After compilation, simply double-click `main.exe` located in the `dist/` folder, or run it from the terminal:
+After compilation, simply double-click `CH4Processor.exe` located in the `dist/` folder, or run it from the terminal:
 
-    dist\main.exe
+    CH4Processor.exe
 
 You’ll be prompted to choose whether to process a specific file or all `.txt` files in the `Raw data/` folder.  
-The processed data will be saved in `Processed data/`.
+The processed data will be saved in `Processed data/` folder.
 
-🔹 Option 2 – Compile the `.exe` with `build_windows.bat`
+🔹 Option 2 – Compile the `.exe` with `build_exe.bat`
 
 To generate the executable from source:
 
 1. Install Python from https://www.python.org and make sure to check "Add to PATH"
 2. Open the project folder
-3. Double-click `build_windows.bat`
-   (or run it from terminal: `.uild_windows.bat`)
+3. Double-click `build_exe.bat`
+   (or run it from terminal: `.build_exe.bat`)
 
-This will create the executable at `dist/main.exe`.  
-It expects the `Raw data/` folder to be at the same level as `dist/`.
+This will create the executable at `CH4Processor.exe`.  
+It expects the `Raw data/` folder to be at the same level as `CH4Processor.exe`.
 
 🧪 Usage Instructions
 ---------------------
@@ -55,18 +53,18 @@ It expects the `Raw data/` folder to be at the same level as `dist/`.
 Run from the terminal (depending on version used):
 
     python main.py --dir .         # for direct Python usage
-    dist\main.exe                 # for the compiled executable
+    CH4Processor.exe                 # for the compiled executable
 
 The tool will:
 
-- Load `.txt` files from `Raw data/`
-- Apply signal filtering and peak correction
-- Save processed results and plots to `Processed data/`
+- Load `.txt` files from `Raw data/` folder
+- Apply signal filtering and peak correction ('CH4Processor.exe')
+- Save processed `.txt` results and plots to `Processed data/` folder
 
 🧼 Notes
 --------
 
-- The executable assumes the folder structure is preserved (`dist/` next to `Raw data/`)
-- A `.gitignore` file is included to avoid committing generated files
+- The executable expects the raw_data/ and Processed data/ folders to be located in the same directory as CH4Processor.exe
+- A .gitignore file is included to avoid tracking generated files and build artifacts
 
 
