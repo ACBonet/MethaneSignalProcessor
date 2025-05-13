@@ -1,7 +1,7 @@
 CH₄ Signal Processor
 ====================
 
-This project provides a tool to process CH₄ (methane) concentration data from `.txt` files, apply advanced filtering, peak correction, and output clean `.txt` files and visualizations.
+This project provides a tool to process CH₄ (methane) concentration data from `.txt` files, apply advanced filtering and peak correction, and export cleaned `.txt` files along with visualizations.
 
 📁 Project Contents
 -------------------
@@ -10,66 +10,71 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 ├── main.py                 # Main CLI entry point
 ├── inc/functions.py       # Processing logic
 ├── raw_data/              # Input .txt files
-├── Processed data/        # Output .csv and plots
-├── Dockerfile             # Build system for .exe
-├── build_exe.sh / .bat    # Helpers for Docker build
+├── Processed data/        # Output .txt and plots
+├── Dockerfile             # Docker build for Windows .exe
+├── build_exe.sh / .bat    # Helper scripts for Docker build
 ├── requirements.txt       # Python dependencies
-└── README.md              # This documentation
+└── README.md              # Project documentation
 
 🧰 Requirements
 ---------------
 
-- Python ≥ 3.8 (only for `.pyz` or local use)
-- Docker Desktop (for compiling `.exe`)
-- Git (to clone the repo)
+- Python ≥ 3.8 (only needed for `.py` or `.pyz` usage)
+- Docker Desktop (for compiling the `.exe`)
+- Git (for cloning the repository)
 
-🪟 How to use on Windows
+🪟 How to Use on Windows
 -------------------------
 
 🔹 Option 1 – Use the `.exe`
 
-After compiling, just double-click the `.exe` or run in terminal:
+Once compiled, just double-click the `main.exe`, or run it from the terminal:
 
     main.exe
 
-You’ll be prompted whether to process a specific file or all files in `Raw data/`.
+You’ll be prompted to choose whether to process a specific file or all `.txt` files inside the `Raw data/` folder.
 
-🔹 Option 2 – Compile the .exe with Docker (using build_exe.bat)
+🔹 Option 2 – Compile the `.exe` with Docker (`build_exe.bat`)
 
-If you want to generate the .exe yourself from Windows using Docker:
-	1.	Install Docker Desktop for Windows
-	2.	Make sure Docker is running
-	3.	Double-click the file build_exe.bat
-(or run it from the terminal in the project folder)
+To build the executable from source on Windows:
 
-🍏🐧 How to compile from macOS/Linux with Docker
+1. Install Docker Desktop for Windows
+2. Make sure Docker is running
+3. Double-click `build_exe.bat`
+   (or run it from the terminal inside the project folder)
+
+The generated `.exe` will be saved to the `dist/` folder.
+
+🍏🐧 How to Compile from macOS/Linux Using Docker
 ------------------------------------------------
 
-1. Make sure Docker is installed and running
-   - https://www.docker.com/products/docker-desktop
-
-2. Compile using the helper script:
+1. Install Docker Desktop and ensure it's running
+2. Open a terminal and run:
 
     chmod +x build_exe.sh
     ./build_exe.sh
 
-This will build the image and create the `.exe` inside `dist/main.exe`.
+This will build the Docker image and generate the `.exe` in `dist/main.exe`.
 
-🧪 Usage instructions
+🧪 Usage Instructions
 ---------------------
 
-    python main.py --dir .             # for .py version
-    ./main.exe                         # for .exe version
+Run from the terminal:
 
-It will:
-- Load `.txt` files from `raw_data/`
-- Filter and correct CH₄ signals
-- Save cleaned `.csv` and plots into `Processed data/`
+    python main.py --dir .             # for Python version
+    ./main.exe                         # for Windows .exe version
+
+The script will:
+
+- Load `.txt` files from the `raw_data/` folder
+- Apply signal filtering and peak correction
+- Save cleaned `.txt` data and plots into `Processed data/`
 
 🧼 Notes
 --------
 
-- The `.exe` is compiled using `cdrx/pyinstaller-windows` in Docker
-- All output is saved to `Processed data/`
-- A `.gitignore` is included to avoid committing generated files
+- The `.exe` is compiled using the `cdrx/pyinstaller-windows` Docker image
+- All results are saved in `Processed data/`
+- A `.gitignore` file is included to avoid tracking generated or system files
+
 
