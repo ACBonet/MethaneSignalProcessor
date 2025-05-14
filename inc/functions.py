@@ -68,7 +68,7 @@ def process_file (filepath, output_dir):
     manual_smoothed = fill_nan_with_local_mean(pd.Series(manual_smoothed))
     manual_smoothed = moving_average(manual_smoothed, len(manual_smoothed) // 100)
     manual_smoothed = fill_nan_with_local_mean(pd.Series(manual_smoothed))
-    manual_smoothed[:window] = signal[:window]
+    manual_smoothed[:window] = moving_average(signal[:window], 2)
 
     # Automatic correction approach
     signal_corrected_auto = signal.copy()
