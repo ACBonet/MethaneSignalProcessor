@@ -6,14 +6,14 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 📁 Project Contents
 -------------------
 
-📦 CH4 Signal Processor
-├── main.py                 # Main CLI entry point
-├── inc/functions.py       # Processing logic
-├── Raw data/              # Input .txt files
-├── Processed data/        # Output .txt and plots
-├── build_exe.bat      # Script to build .exe using PyInstaller
-├── requirements.txt       # Python dependencies
-└── README.md              # Project documentation
+    📦 CH4 Signal Processor
+    ├── main.py                # Main CLI entry point
+    ├── inc/functions.py       # Processing logic
+    ├── Raw data/              # Input .txt files
+    ├── Processed data/        # Output .txt and plots
+    ├── build_exe.bat          # Script to build .exe using PyInstaller
+    ├── requirements.txt       # Python dependencies
+    └── README.md              # Project documentation
 
 🧰 Requirements
 ---------------
@@ -47,12 +47,18 @@ To generate the executable from source:
 This will create the executable at `CH4Processor.exe`.  
 It expects the `Raw data/` folder to be at the same level as `CH4Processor.exe`.
 
+🐧🍏 How to Use on Linux/OS
+---------------------------
+
+    pip install -r requirements.txt  # for install python dependencies
+    python main.py                   # for direct Python usage
+
 🧪 Usage Instructions
 ---------------------
 
 Run from the terminal (depending on version used):
 
-    python main.py --dir .         # for direct Python usage
+    python main.py                   # for direct Python usage
     CH4Processor.exe                 # for the compiled executable
 
 The tool will:
