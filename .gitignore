@@ -9,6 +9,7 @@ __pycache__/
 .venv/
 *.egg-info/
 Processed data/
+Raw data/
 
 # PyInstaller
 dist/
