@@ -18,11 +18,15 @@ def main():
     answer = input("Do you want to process a specific file? (y/n): ").strip().lower()
 
     if answer == 'y':
-        file_path = input("Enter the path to the .txt file: ").strip()
-        if os.path.isfile(file_path) and file_path.endswith('.txt'):
+        file_name = input("Enter the filename inside 'Raw data' (e.g. data): ").strip()
+        file_path = os.path.join(raw_dir, file_name + ".txt")
+
+        # Validate the file is inside Raw data and exists
+        if os.path.commonpath([os.path.abspath(file_path), raw_dir]) == os.path.abspath(raw_dir) \
+           and os.path.isfile(file_path):
             process_file(file_path, output_dir)
         else:
-            print("Invalid path or not a .txt file.")
+            print("Invalid file. Make sure the file exists inside the 'Raw data' folder and has a .txt extension.")
     else:
         if not os.path.isdir(raw_dir):
             print(f"Error: Raw data directory not found at {raw_dir}")
