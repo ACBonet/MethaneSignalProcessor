@@ -20,7 +20,7 @@ def fill_nan_with_local_mean(series, window=5):
 
 def process_file (filepath, output_dir):
     try:
-        df = pd.read_csv(filepath, sep='\\t', header=1)
+        df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
     except pd.errors.EmptyDataError:
         print(f"Skipped empty file: {filepath}")
         return
@@ -28,7 +28,7 @@ def process_file (filepath, output_dir):
         print(f"Error loading {filepath}: {e}")
         return
     
-    df = pd.read_csv(filepath, sep='\t', header=1)
+    df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
     signal = df["CH4(ppm)"].values
     time = df["time(s)"].values
     fs = 1 / (time[1] - time[0])
