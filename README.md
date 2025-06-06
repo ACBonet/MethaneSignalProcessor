@@ -98,7 +98,44 @@ You will also find a text summary file:
 - `example_results.txt`: numerical summary of diffusive and ebullitive analysis
 
 ### Summary of Numerical Results
-![Results Summary](example_outputs/example_results.png)
+📄 Numerical Results Summary  
+You can open the full text file at `example_outputs/example_results.txt`.
+
+Example contents:
+
+```
+# Source File: 30062024_1400_LAKE1
+
+--- Diffusive Flux Segments ---
+- Slope: 0.0427 ppm/s | R²: 0.923 | T: 23.0°C | P: 610.0 mmHg | Diffusive Flux: 1016.07 µmol/m²·h
+- Slope: 0.1091 ppm/s | R²: 0.997 | T: 24.7°C | P: 610.0 mmHg | Diffusive Flux: 2578.50 µmol/m²·h
+- Slope: 0.0155 ppm/s | R²: 0.990 | T: 26.1°C | P: 610.0 mmHg | Diffusive Flux: 365.23 µmol/m²·h
+- Slope: 0.0432 ppm/s | R²: 0.987 | T: 26.2°C | P: 610.0 mmHg | Diffusive Flux: 1016.65 µmol/m²·h
+- Slope: 0.0217 ppm/s | R²: 0.970 | T: 26.6°C | P: 610.0 mmHg | Diffusive Flux: 509.01 µmol/m²·h
+- Slope: 0.0093 ppm/s | R²: 0.939 | T: 26.6°C | P: 610.0 mmHg | Diffusive Flux: 218.17 µmol/m²·h
+- Slope: 0.0106 ppm/s | R²: 0.917 | T: 26.2°C | P: 610.0 mmHg | Diffusive Flux: 249.16 µmol/m²·h
+
+--- Summary Statistics of Diffusive Fluxes (µmol/m²·h) ---
+count       7.00
+mean      850.40
+std       832.12
+min       218.17
+25%       307.20
+50%       509.01
+75%     1,016.36
+max     2,578.50
+dtype: float64
+
+--- Summary of Ebullitive Events ---
+Peak Analysis Interval: 10
+Total Adjusted CH₄ Concentration (ppm): 6.48
+Final CH₄ Concentration (ppm): 33.49
+Contribution of boiling to the total (%): 19.34
+Number of Bubbles: 6
+Index of Bubbles: [39, 125, 162, 216, 270, 305]
+Total Bubble Time (h): 0.028
+Bubbles per Hour: 213.4
+```
 
 🧼 Notes
 --------
