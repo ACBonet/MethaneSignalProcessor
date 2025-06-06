@@ -11,6 +11,9 @@ This project provides a tool to process CH₄ (methane) concentration data from 
     ├── inc/functions.py       # Processing logic
     ├── Raw data/              # Input .txt files
     ├── Processed data/        # Output .txt and plots
+    # Output .txt and plots
+    ├── results/               # Text reports for flux and bubble analysis
+    └── plots/                 # All output figures (processed signal, steps, slopes)
     ├── build_exe.bat          # Script to build .exe using PyInstaller
     ├── requirements.txt       # Python dependencies
     └── README.md              # Project documentation
@@ -65,7 +68,37 @@ The tool will:
 
 - Load `.txt` files from `Raw data/` folder
 - Apply signal filtering and peak correction ('CH4Processor.exe')
-- Save processed `.txt` results and plots to `Processed data/` folder
+- Save processed `.txt` results and plots to the `Processed data/` folder:
+  - Export a numerical summary of diffusive fluxes and ebullitive events into a `.txt` file inside `Processed data/results/`.
+  - Save the final processed data files in `.csv` format inside `Processed data/data/`.
+  - Save the following plots in `Processed data/plots/`:
+      • Original vs Processed Signal with Detected Peaks
+      • Analog-like Step Signal of Valid Peaks
+      • Linear Fits on Diffusive Segments (with slopes and R²)
+
+
+📊 Example Outputs
+------------------
+
+You can preview expected outputs below or by opening the `example_outputs/` folder:
+
+### Detected Peaks Overlay
+![Detected Peaks](example_outputs/example_peaks_comparison.png)
+
+### Step-like Peak Response
+![Step-like Response](example_outputs/example_step_response.png)
+
+### Linear Fits on Diffusive Segments
+![Slopes and R²](example_outputs/example_slopes.png)
+
+---
+
+
+You will also find a text summary file:
+- `example_results.txt`: numerical summary of diffusive and ebullitive analysis
+
+### Summary of Numerical Results
+![Results Summary](example_outputs/example_results.png)
 
 🧼 Notes
 --------
