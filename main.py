@@ -6,6 +6,7 @@ import sys
 def main():
     parser = argparse.ArgumentParser(description="CH₄ signal processing from terminal")
     parser.add_argument('--dir', type=str, default='.', help="Root directory (default: current folder)")
+    parser.add_argument('--window_peaks', type=int, default=5, help="Window size for analyzing ebullition peaks (default: 5)")
     args = parser.parse_args()
 
     # Compatible with .py, .pyz and .exe inside /dist
@@ -21,13 +22,23 @@ def main():
         file_name = input("Enter the filename inside 'Raw data' (e.g. data): ").strip()
         file_path = os.path.join(raw_dir, file_name + ".txt")
 
+        try:
+            window_peaks = int(input("Enter window size for analyzing ebullition peaks (default is 5): ").strip())
+        except ValueError:
+            window_peaks = 5
+
         # Validate the file is inside Raw data and exists
         if os.path.commonpath([os.path.abspath(file_path), raw_dir]) == os.path.abspath(raw_dir) \
            and os.path.isfile(file_path):
-            process_file(file_path, output_dir)
+            process_file(file_path, output_dir, window_peaks=window_peaks)
         else:
             print("Invalid file. Make sure the file exists inside the 'Raw data' folder and has a .txt extension.")
     else:
+        try:
+            window_peaks = int(input("Enter window size for analyzing ebullition peaks (default is 5): ").strip())
+        except ValueError:
+            window_peaks = 5
+
         if not os.path.isdir(raw_dir):
             print(f"Error: Raw data directory not found at {raw_dir}")
             return
@@ -35,7 +46,7 @@ def main():
         for fname in os.listdir(raw_dir):
             if fname.endswith('.txt'):
                 full_path = os.path.join(raw_dir, fname)
-                process_file(full_path, output_dir)
+                process_file(full_path, output_dir, window_peaks=window_peaks)
 
 if __name__ == "__main__":
     main()
