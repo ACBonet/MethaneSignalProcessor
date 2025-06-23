@@ -9,6 +9,7 @@ from scipy.stats import linregress
 def moving_average(signal, window_size):
     return pd.Series(signal).rolling(window=window_size, center=True, min_periods=1).mean().to_numpy()
 
+# Function to fill NaN values with local mean
 def fill_nan_with_local_mean(series, window=5):
     filled = series.copy()
     for i in range(len(series)):
@@ -193,7 +194,9 @@ def calculate_slopes_and_difusive_flux(
     if return_series:
         return flux_lines, flux_series
 
+#
 # Function to process a single file
+#
 def process_file (filepath, output_dir, window_peaks=5):
     try:
         df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
@@ -296,7 +299,7 @@ def process_file (filepath, output_dir, window_peaks=5):
 
     output_csv = os.path.join(data_output_dir, base_name + "_processed.csv")
 
-    # Comparision plot of original and processed signals
+    # Comparison plot of original and processed signals with detected peaks
     peaks_subdir = os.path.join(plot_dir, "with_peaks")
     os.makedirs(peaks_subdir, exist_ok=True)
     detected_peaks_path = os.path.join(peaks_subdir, base_name + "_peaks_comparison.png")
@@ -314,7 +317,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     fig.savefig(detected_peaks_path)
     plt.close(fig)
 
-    # Signal plot with peaks
+    # Plot of valid segments with fitted slopes
     slopes_subdir = os.path.join(plot_dir, "slopes")
     os.makedirs(slopes_subdir, exist_ok=True)
     slopes_plot_path = os.path.join(slopes_subdir, base_name + "_slopes_on_signal.png")
@@ -336,11 +339,11 @@ def process_file (filepath, output_dir, window_peaks=5):
         return_series=True
     )
 
-    # Get summary statistics of ebullitive events
+    # Summary of ebullitive events
     results = get_describe(df, valid_peaks=valid_peaks, window=window_peaks)
     print_summary(results)
 
-    # Save results to text file
+    # Save numerical results summary
     txt_path = os.path.join(results_dir, base_name + "_results.txt")
     with open(txt_path, "w") as f:
         f.write(f"# Source File: {base_name}\n\n")
@@ -353,7 +356,7 @@ def process_file (filepath, output_dir, window_peaks=5):
         for key, value in results.items():
             f.write(f"{key}: {value}\n")
 
-    # Plot signal with ebullitive steps
+    # Plot step-like representation of ebullitive peaks
     steps_subdir = os.path.join(plot_dir, "steps")
     os.makedirs(steps_subdir, exist_ok=True)
     step_plot_path = os.path.join(steps_subdir, base_name + "_peak_steps.png")
@@ -377,7 +380,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     fig.savefig(step_plot_path)
     plt.close(fig)
 
-    # Save processed DataFrame
+    # Save processed DataFrame to CSV
     cols_to_drop = ["CH4_corr", "CH4_filtered", "ValidPeak"]
     df.drop(columns=[col for col in cols_to_drop if col in df.columns], inplace=True)
     df.to_csv(output_csv, index=False)
