@@ -4,6 +4,8 @@ import os
 from scipy.signal import butter, filtfilt, find_peaks
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
+
+# Function to calculate moving average
 def moving_average(signal, window_size):
     return pd.Series(signal).rolling(window=window_size, center=True, min_periods=1).mean().to_numpy()
 
@@ -18,6 +20,7 @@ def fill_nan_with_local_mean(series, window=5):
                 filled[i] = neighbors.mean()
     return filled
 
+# Function to plot the signal with slopes and R² values
 def plot_signal_with_slopes_and_r2(x, y, valid_peaks, window=10):
     x = np.array(x)
     y = np.array(y)
@@ -52,7 +55,7 @@ def plot_signal_with_slopes_and_r2(x, y, valid_peaks, window=10):
         if r_value**2 > 0.7:
             plt.plot(x_seg, y_fit, color='red', linewidth=2, label='Fitted slope' if i == 0 else "")
             mid_x = (x_seg[0] + x_seg[-1]) / 2
-            mid_y = (slope * mid_x + intercept) + 0.02 * (max(y) - min(y))  # small offset above the line
+            mid_y = (slope * mid_x + intercept) + 0.02 * (max(y) - min(y)) 
             plt.text(mid_x, mid_y, f"Slope: {slope:.2f}\n$r^2$: {r_value**2:.2f}",
                      fontsize=8, color='darkred', ha='center', bbox=dict(facecolor='white', edgecolor='none', alpha=0.7))
 
@@ -64,6 +67,7 @@ def plot_signal_with_slopes_and_r2(x, y, valid_peaks, window=10):
     fig.tight_layout()
     return fig
 
+# Function to calculate the total adjusted concentration and other statistics
 def get_describe(dataframe, valid_peaks, window):
     total_adjusted_concentration = 0
     time_of_bubbles = 0
@@ -79,7 +83,7 @@ def get_describe(dataframe, valid_peaks, window):
         if adjusted_concentration > 0:
             total_adjusted_concentration += adjusted_concentration
 
-        # Calcular duración del evento en segundos
+        # Calculate event duration in seconds
         t_start = dataframe.loc[start, 'time(s)']
         t_end = dataframe.loc[end, 'time(s)']
         time_of_bubbles += max(t_end - t_start, 0)
@@ -88,7 +92,7 @@ def get_describe(dataframe, valid_peaks, window):
     time_of_bubbles_h = time_of_bubbles / 3600
     bubbles_per_hour = n_bubbles / time_of_bubbles_h if time_of_bubbles_h > 0 else 0
 
-    # Valor final de CH₄
+    # Final CH₄ value
     total_concentration = dataframe['CH4(ppm)'].max()
     percent_bubbling = (total_adjusted_concentration / total_concentration) * 100 if total_concentration > 0 else 0
 
@@ -103,13 +107,15 @@ def get_describe(dataframe, valid_peaks, window):
         "Bubbles per Hour": round(bubbles_per_hour, 2)
     }
 
+# Function to print summary statistics
 def print_summary(stats_dict):
     df_summary = pd.DataFrame.from_dict(stats_dict, orient='index', columns=["Value"])
     df_summary.index.name = "Metric"
     pd.options.display.float_format = '{:,.2f}'.format  # Formato con dos decimales
     # print("\n--- Summary of Ebullitive Events ---\n")
     # print(df_summary)
-    
+   
+# Function to convert concentration from ppm/s to µmol/m²·h 
 def ppm_per_s_to_umol_per_m2h(pressure_mmHg, concentration_ppm_per_s, volume_m3, temperature_C, area_m2):
     R = 8.314  # J/(mol·K)
     T_K = temperature_C + 273.15
@@ -119,6 +125,7 @@ def ppm_per_s_to_umol_per_m2h(pressure_mmHg, concentration_ppm_per_s, volume_m3,
     umol_per_m2h = (mol_per_s * 1e6 * 3600) / area_m2
     return umol_per_m2h
 
+# Function to calculate slopes and diffusive fluxes
 def calculate_slopes_and_difusive_flux(
     x, y, valid_peaks, temperatures_C, pressures_mmHg, 
     volume_m3, area_m2, window=10, only_positive=True, return_series=False
@@ -186,6 +193,7 @@ def calculate_slopes_and_difusive_flux(
     if return_series:
         return flux_lines, flux_series
 
+# Function to process a single file
 def process_file (filepath, output_dir, window_peaks=5):
     try:
         df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
@@ -277,7 +285,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     final_signal = (manual_smoothed + auto_smoothed) / 2
     df["CH4_final (ppm)"] = final_signal
 
-    # Preparar paths
+    # Prepare paths
     base_name = os.path.splitext(os.path.basename(filepath))[0]
     data_output_dir = os.path.join(output_dir, "data")
     plot_dir = os.path.join(output_dir, "plots")
@@ -288,7 +296,7 @@ def process_file (filepath, output_dir, window_peaks=5):
 
     output_csv = os.path.join(data_output_dir, base_name + "_processed.csv")
 
-    # ------------------ Gráfica comparativa Original vs Final con picos detectados ------------------
+    # Comparision plot of original and processed signals
     peaks_subdir = os.path.join(plot_dir, "with_peaks")
     os.makedirs(peaks_subdir, exist_ok=True)
     detected_peaks_path = os.path.join(peaks_subdir, base_name + "_peaks_comparison.png")
@@ -306,7 +314,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     fig.savefig(detected_peaks_path)
     plt.close(fig)
 
-    # ------------------ Gráfica con pendientes ------------------
+    # Signal plot with peaks
     slopes_subdir = os.path.join(plot_dir, "slopes")
     os.makedirs(slopes_subdir, exist_ok=True)
     slopes_plot_path = os.path.join(slopes_subdir, base_name + "_slopes_on_signal.png")
@@ -314,7 +322,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     fig.savefig(slopes_plot_path)
     plt.close(fig)
 
-    # ------------------ Cálculo del flujo difusivo ------------------
+    # Calculate slopes and diffusive fluxes
     flux_lines, flux_series = calculate_slopes_and_difusive_flux(
         x=df['time(s)'],
         y=final_signal,
@@ -328,11 +336,11 @@ def process_file (filepath, output_dir, window_peaks=5):
         return_series=True
     )
 
-    # ------------------ Resumen de eventos ebullicionantes ------------------
+    # Get summary statistics of ebullitive events
     results = get_describe(df, valid_peaks=valid_peaks, window=window_peaks)
     print_summary(results)
 
-    # ------------------ Guardar informe numérico ------------------
+    # Save results to text file
     txt_path = os.path.join(results_dir, base_name + "_results.txt")
     with open(txt_path, "w") as f:
         f.write(f"# Source File: {base_name}\n\n")
@@ -345,7 +353,7 @@ def process_file (filepath, output_dir, window_peaks=5):
         for key, value in results.items():
             f.write(f"{key}: {value}\n")
 
-    # ------------------ Señal escalonada de picos ------------------
+    # Plot signal with ebullitive steps
     steps_subdir = os.path.join(plot_dir, "steps")
     os.makedirs(steps_subdir, exist_ok=True)
     step_plot_path = os.path.join(steps_subdir, base_name + "_peak_steps.png")
@@ -369,7 +377,7 @@ def process_file (filepath, output_dir, window_peaks=5):
     fig.savefig(step_plot_path)
     plt.close(fig)
 
-    # ------------------ Guardar CSV ------------------
+    # Save processed DataFrame
     cols_to_drop = ["CH4_corr", "CH4_filtered", "ValidPeak"]
     df.drop(columns=[col for col in cols_to_drop if col in df.columns], inplace=True)
     df.to_csv(output_csv, index=False)
