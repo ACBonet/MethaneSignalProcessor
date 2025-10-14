@@ -194,9 +194,16 @@ def calculate_slopes_and_difusive_flux(
     if return_series:
         return flux_lines, flux_series
 
-#
+# Function to convert timestamp to seconds
+def convert_timestamp_to_seconds(df, timestamp_col='timestamp'):
+    df[timestamp_col] = pd.to_datetime(df[timestamp_col])
+    
+    t0 = df[timestamp_col].iloc[0]
+    df['time(s)'] = (df[timestamp_col] - t0).dt.total_seconds()
+
+    return df
+
 # Function to process a single file
-#
 def process_file (filepath, output_dir, window_peaks=5):
     try:
         df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
@@ -208,9 +215,9 @@ def process_file (filepath, output_dir, window_peaks=5):
         return
     
     df = pd.read_csv(filepath, sep='\\t', header=1, engine='python')
+    df = df.dropna(subset=["CH4(ppm)", "time(s)"])
     signal = df["CH4(ppm)"].values
     time = df["time(s)"].values
-    fs = 1 / (time[1] - time[0])
 
     # Filter signal using Butterworth
     lowcut = 0.01
@@ -332,8 +339,8 @@ def process_file (filepath, output_dir, window_peaks=5):
         valid_peaks=valid_peaks,
         temperatures_C=df['Temp'] if 'Temp' in df.columns else df['temp'],
         pressures_mmHg=df['Pressure(Hg_mm)'],
-        volume_m3=0.35 * 0.25 * 0.20,
-        area_m2=0.35 * 0.25,
+        volume_m3=0.011,
+        area_m2=0.0782,
         window=10,
         only_positive=True,
         return_series=True

@@ -1,4 +1,4 @@
-CH₄ Signal Processor
+MethaneSignalProcessor (MSP)
 ====================
 
 This project provides a tool to process CH₄ (methane) concentration data from `.txt` files, apply advanced filtering and peak correction, and export cleaned `.txt` files along with visualizations.
@@ -6,7 +6,7 @@ This project provides a tool to process CH₄ (methane) concentration data from 
 📁 Project Contents
 -------------------
 
-    📦 CH4 Signal Processor
+    📦 MethaneSignalProcessor (MSP)
     ├── main.py                # Main CLI entry point
     ├── inc/functions.py       # Processing logic
     ├── Raw data/              # Input .txt files
