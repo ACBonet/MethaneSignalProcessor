@@ -1,4 +1,4 @@
-from inc.test_functions import process_file
+from inc.functions import process_file
 import argparse
 import os
 import sys
