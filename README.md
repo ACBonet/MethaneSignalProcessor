@@ -1,146 +1,171 @@
 MethaneSignalProcessor (MSP)
 ====================
 
-This project provides a tool to process CH₄ (methane) concentration data from `.txt` files, apply advanced filtering and peak correction, and export cleaned `.txt` files along with visualizations.
+MethaneSignalProcessor (MSP) is an open-source tool for processing high-frequency CH₄ (methane) concentration time-series acquired with floating chambers.
+The routine separates diffusive and ebullitive emission components, applies advanced signal correction, and exports numerical summaries together with graphical outputs.
+
+📦 Project Overview
+-------------------
+MSP is designed to support automated, standardized, and reproducible analysis of aquatic methane signals, particularly those obtained with low-cost sensors under field conditions.
+
+Main capabilities:
+- Automated data cleaning and preprocessing
+- Advanced digital filtering
+- Adaptive peak detection for ebullition events
+- Dual-branch correction with multi-scale refinement
+- Regression-based diffusive flux estimation
+- Structured export of numerical results and figures
 
 📁 Project Contents
 -------------------
 
-    📦 MethaneSignalProcessor (MSP)
-    ├── main.py                # Main CLI entry point
-    ├── inc/functions.py       # Processing logic
-    ├── Raw data/              # Input .txt files
-    ├── Processed data/        # Output .txt and plots
-    # Output .txt and plots
-    ├── results/               # Text reports for flux and bubble analysis
-    └── plots/                 # All output figures (processed signal, steps, slopes)
-    ├── build_exe.bat          # Script to build .exe using PyInstaller
-    ├── requirements.txt       # Python dependencies
-    └── README.md              # Project documentation
-
-🧰 Requirements
----------------
-
-- Python ≥ 3.8
-- pip (Python package manager)
-
-> To build the `.exe`, PyInstaller must be installed (automatically handled by the `.bat` script).
-
-🪟 How to Use on Windows
-------------------------
-
-🔹 Option 1 – Use the `.exe`
-
-After compilation, simply double-click `CH4Processor.exe` located in the `dist/` folder, or run it from the terminal:
-
-    CH4Processor.exe
-
-You’ll be prompted to choose whether to process a specific file or all `.txt` files in the `Raw data/` folder.  
-The processed data will be saved in `Processed data/` folder.
-
-🔹 Option 2 – Compile the `.exe` with `build_exe.bat`
-
-To generate the executable from source:
-
-1. Install Python from https://www.python.org and make sure to check "Add to PATH"
-2. Open the project folder
-3. Double-click `build_exe.bat`
-   (or run it from terminal: `.build_exe.bat`)
-
-This will create the executable at `CH4Processor.exe`.  
-It expects the `Raw data/` folder to be at the same level as `CH4Processor.exe`.
-
-🐧🍏 How to Use on Linux/OS
----------------------------
-
-    pip install -r requirements.txt  # for install python dependencies
-    python main.py                   # for direct Python usage
-
-🧪 Usage Instructions
----------------------
-
-Run from the terminal (depending on version used):
-
-    python main.py                   # for direct Python usage
-    CH4Processor.exe                 # for the compiled executable
-
-The tool will:
-
-- Load `.txt` files from `Raw data/` folder
-- Apply signal filtering and peak correction ('CH4Processor.exe')
-- Save processed `.txt` results and plots to the `Processed data/` folder:
-  - Export a numerical summary of diffusive fluxes and ebullitive events into a `.txt` file inside `Processed data/results/`.
-  - Save the final processed data files in `.csv` format inside `Processed data/data/`.
-  - Save the following plots in `Processed data/plots/`:
-      • Original vs Processed Signal with Detected Peaks
-      • Analog-like Step Signal of Valid Peaks
-      • Linear Fits on Diffusive Segments (with slopes and R²)
-
-
-📊 Example Outputs
-------------------
-
-You can preview expected outputs below or by opening the `example_outputs/` folder:
-
-### Detected Peaks Overlay
-![Detected Peaks](example_outputs/example_peaks_comparison.png)
-
-### Step-like Peak Response
-![Step-like Response](example_outputs/example_step_response.png)
-
-### Linear Fits on Diffusive Segments
-![Slopes and R²](example_outputs/example_slopes.png)
+    MethaneSignalProcessor (MSP)
+    ├── main.py                  # Main CLI entry point
+    ├── inc/functions.py         # Core processing logic
+    ├── Raw data/                # Input .txt files
+    ├── Processed data/          # Output data and figures
+    │   ├── data/                # Processed .csv files
+    │   ├── results/             # Text summaries (fluxes & bubbles)
+    │   └── plots/               # Output figures
+    ├── example_outputs/         # Example outputs for reference
+    ├── build_exe.bat            # Script to build Windows executable
+    ├── requirements.txt         # Python dependencies
+    └── README.md                # Project documentation
 
 ---
 
+## 🧰 Requirements
 
-You will also find a text summary file:
-- `example_results.txt`: numerical summary of diffusive and ebullitive analysis
+- Python ≥ 3.8  
+- pip (Python package manager)
 
-### Summary of Numerical Results
-📄 Numerical Results Summary  
-You can open the full text file at `example_outputs/example_results.txt`.
+To build the Windows executable, **PyInstaller** is required (handled automatically by `build_exe.bat`).
 
-Example contents:
+---
 
-```
-# Source File: 30062024_1400_LAKE1
+## 🚀 Quick Start
 
---- Diffusive Flux Segments ---
-- Slope: 0.0427 ppm/s | R²: 0.923 | T: 23.0°C | P: 610.0 mmHg | Diffusive Flux: 1016.07 µmol/m²·h
-- Slope: 0.1091 ppm/s | R²: 0.997 | T: 24.7°C | P: 610.0 mmHg | Diffusive Flux: 2578.50 µmol/m²·h
-- Slope: 0.0155 ppm/s | R²: 0.990 | T: 26.1°C | P: 610.0 mmHg | Diffusive Flux: 365.23 µmol/m²·h
-- Slope: 0.0432 ppm/s | R²: 0.987 | T: 26.2°C | P: 610.0 mmHg | Diffusive Flux: 1016.65 µmol/m²·h
-- Slope: 0.0217 ppm/s | R²: 0.970 | T: 26.6°C | P: 610.0 mmHg | Diffusive Flux: 509.01 µmol/m²·h
-- Slope: 0.0093 ppm/s | R²: 0.939 | T: 26.6°C | P: 610.0 mmHg | Diffusive Flux: 218.17 µmol/m²·h
-- Slope: 0.0106 ppm/s | R²: 0.917 | T: 26.2°C | P: 610.0 mmHg | Diffusive Flux: 249.16 µmol/m²·h
-
---- Summary Statistics of Diffusive Fluxes (µmol/m²·h) ---
-count       7.00
-mean      850.40
-std       832.12
-min       218.17
-25%       307.20
-50%       509.01
-75%     1,016.36
-max     2,578.50
-dtype: float64
-
---- Summary of Ebullitive Events ---
-Peak Analysis Interval: 10
-Total Adjusted CH₄ Concentration (ppm): 6.48
-Final CH₄ Concentration (ppm): 33.49
-Contribution of boiling to the total (%): 19.34
-Number of Bubbles: 6
-Index of Bubbles: [39, 125, 162, 216, 270, 305]
-Total Bubble Time (h): 0.028
-Bubbles per Hour: 213.4
+### Option 1 — Python (Linux / macOS / Windows)
+1. Clone the repository:
+```bash
+git clone https://github.com/ACBonet/MethaneSignalProcessor.git
+cd MethaneSignalProcessor
 ```
 
-🧼 Notes
---------
+2.	(Optional but recommended) Create a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate      # Linux / macOS
+venv\Scripts\activate         # Windows
+```.
+3.	Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-- The executable expects the raw_data/ and Processed data/ folders to be located in the same directory as CH4Processor.exe
-- A .gitignore file is included to avoid tracking generated files and build artifacts
+4.	Run the processor:
+```bash
+python main.py
+```
+
+### Option 2 — Windows Executable (.exe)
+After compilation, simply double-click:
+```bash
+CH4Processor.exe
+```
+or run it from the terminal.
+
+The program will prompt you to:
+	•	Process a single .txt file, or
+	•	Process all .txt files located in the Raw data/ folder
+
+Outputs are automatically written to the Processed data/ directory.
+
+## 🪟 Building the Windows Executable
+
+To generate the executable from source:
+	1.	Install Python from https://www.python.org
+(ensure “Add Python to PATH” is checked)
+	2.	Open the project folder
+	3.	Double-click build_exe.bat
+(or run it from the terminal)
+
+The executable CH4Processor.exe will be created.
+It expects the folders Raw data/ and Processed data/ to be located at the same level.
+
+## 🧪 Usage Summary
+
+### Run one of the following:
+```bash
+python main.py        # Python usage
+CH4Processor.exe      # Executable usage
+```
+### The tool will:
+- Load .txt files from Raw data/
+- Apply filtering, peak detection, and correction
+- Export results to Processed data/, including:
+
+### Numerical Outputs
+- Text summaries of diffusive flux segments
+- Summary statistics of diffusive fluxes
+- Ebullitive event metrics (counts, rates, relative contribution)
+
+### Graphical Outputs
+Saved in Processed data/plots/:
+- Original vs processed signal with detected peaks
+- Step-like representation of ebullitive events
+- Linear fits on diffusive segments (with slope and R²)
+    
+## 📊 Example Outputs
+
+Representative outputs can be previewed in the example_outputs/ folder.
+
+These include:
+- Detected peaks overlaid on raw and corrected signals
+- Step-wise reconstruction of ebullitive dynamics
+- Linear regression fits on diffusive segments
+
+## 📄 Example Numerical Summary
+
+Each processed file generates a text report (e.g. example_results.txt) containing:
 
 
+
+These outputs support both quantitative analysis and visual inspection.
+
+## ⚙️ Input File Format
+
+Input .txt files must include:
+- A time column (regularly sampled)
+- A CH₄ concentration column (ppm)
+- Optional temperature and pressure columns
+
+Example input files are provided in the Raw data/ folder.
+
+## 🧯 Troubleshooting
+
+### ModuleNotFoundError
+- Ensure dependencies are installed:
+```bash
+pip install -r requirements.txt
+```
+### Executable does not find input files
+- Confirm Raw data/ is in the same directory as CH4Processor.exe
+
+### Unexpected or noisy results
+- Verify input data formatting and sampling consistency
+- Extremely low-amplitude or highly noisy signals may reduce peak detection reliability
+
+## 📌 Methodological Scope and Limitations
+- MSP is designed for time-series CH₄ data acquired with floating chambers.
+- The pipeline assumes quasi-steady diffusive accumulation between ebullition events.
+- Strong hydrodynamic forcing, rapid environmental transitions, or highly turbulent conditions may introduce non-linearities not captured by linear regression.
+- MSP provides automated signal decomposition and relative flux estimates; absolute flux accuracy depends on sensor calibration, chamber geometry, and environmental conditions.
+- Validation against independent reference methods (e.g. GC-based measurements) should be considered when available.
+
+## 📜 License & Citation
+
+This project is released as open-source.
+
+If you use MSP in your work, please cite the associated publication
+(to be updated upon acceptance).
