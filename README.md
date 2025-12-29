@@ -76,18 +76,20 @@ CH4Processor.exe
 or run it from the terminal.
 
 The program will prompt you to:
-	•	Process a single .txt file, or
-	•	Process all .txt files located in the Raw data/ folder
+- Process a single .txt file, or
+- Process all .txt files located in the Raw data/ folder
 
 Outputs are automatically written to the Processed data/ directory.
 
 ## 🪟 Building the Windows Executable
 
 To generate the executable from source:
-	1.	Install Python from https://www.python.org
+1. Install Python from https://www.python.org
 (ensure “Add Python to PATH” is checked)
-	2.	Open the project folder
-	3.	Double-click build_exe.bat
+
+2.	Open the project folder
+
+3.	Double-click build_exe.bat
 (or run it from the terminal)
 
 The executable CH4Processor.exe will be created.
@@ -130,17 +132,18 @@ The following figures are produced automatically for each processed file:
 ### Detected Peaks Overlay
 Overlay of the original signal, corrected signal, and validated ebullitive peaks.
 
-example_outputs/example_peaks_comparison.png
+![Detected Peaks Overlay](example_outputs/example_peaks_comparison.png)
+
 
 ### Step-wise Ebullitive Signal
 Step-like reconstruction of ebullitive contributions derived from validated peaks.
 
-example_outputs/example_step_response.png
+![Step-wise Ebullitive Signal](example_outputs/example_step_response.png)
 
 ### Diffusive Regression Fits
 Linear regression fits applied to diffusive segments, including slope and coefficient of determination (R²).
 
-example_outputs/example_slopes.png
+![Diffusive Regression Fits](example_outputs/example_slopes.png)
 
 These figures are also saved automatically for user data in Processed data/plots/.
 
@@ -154,7 +157,7 @@ To reproduce similar outputs using your own data:
 2. Run the processor:
 ```bash
 python main.py
-````
+```
 or, on Windows:
 ```bash
 CH4Processor.exe
@@ -172,11 +175,11 @@ The structure, content, and interpretation of these outputs are directly compara
 
 Each processed file generates a text report summarizing diffusive and ebullitive components.
 An example report is provided as:
-	•	example_outputs/example_results.txt
+- example_outputs/example_results.txt
 
 This file contains a structured summary of the analysis, including:
 
-# Source File: 30062024_1400_LAKE1
+### Source File: 30062024_1400_LAKE1
 ```
 - Diffusive Flux Segments ---
 - Slope: 0.0427 ppm/s | R²: 0.923 | T: 23.0°C | P: 610.0 mmHg | Diffusive Flux: 1016.07 µmol/m²·h
@@ -235,9 +238,9 @@ pip install -r requirements.txt
 ### ‘python’ command not found (Linux / macOS)
 On some systems, Python is invoked as python3 instead of python.
 - Try running MSP with:
-    ```bash
-    python3 main.py
-    ```
+```bash
+python3 main.py
+```
 - If this works, you may consistently use python3 instead of python.
 
 If Python is not installed, download it from:
