@@ -162,9 +162,9 @@ CH4Processor.exe
 3. Select whether to process a single file or all files in the folder.
 
 For each input file, MSP automatically generates:
-	•	Graphical outputs in Processed data/plots/
-	•	Numerical summaries in Processed data/results/
-	•	Processed time-series files in Processed data/data/
+- Graphical outputs in Processed data/plots/
+- Numerical summaries in Processed data/results/
+- Processed time-series files in Processed data/data/
 
 The structure, content, and interpretation of these outputs are directly comparable to the examples shown in example_outputs/.
 
@@ -177,8 +177,8 @@ An example report is provided as:
 This file contains a structured summary of the analysis, including:
 
 # Source File: 30062024_1400_LAKE1
-
---- Diffusive Flux Segments ---
+```
+- Diffusive Flux Segments ---
 - Slope: 0.0427 ppm/s | R²: 0.923 | T: 23.0°C | P: 610.0 mmHg | Diffusive Flux: 1016.07 µmol/m²·h
 - Slope: 0.1091 ppm/s | R²: 0.997 | T: 24.7°C | P: 610.0 mmHg | Diffusive Flux: 2578.50 µmol/m²·h
 - Slope: 0.0155 ppm/s | R²: 0.990 | T: 26.1°C | P: 610.0 mmHg | Diffusive Flux: 365.23 µmol/m²·h
@@ -206,8 +206,9 @@ Number of Bubbles: 6
 Index of Bubbles: [39, 125, 162, 216, 270, 305]
 Total Bubble Time (h): 0.028
 Bubble Rate (bubbles/h): 213.4
+```
 
-Equivalent numerical reports are automatically generated for user-provided data in Processed data/results/.
+Equivalent numerical reports are automatically generated for user-provided data in Processed data/result
 
 ## ⚙️ Input File Format
 
@@ -229,28 +230,28 @@ This error typically indicates that required Python packages are not installed.
 ```bash
 pip install -r requirements.txt
 ```
-	•	If you are using multiple Python versions, make sure pip corresponds to the same Python interpreter used to run MSP.
+- If you are using multiple Python versions, make sure pip corresponds to the same Python interpreter used to run MSP.
 
 ### ‘python’ command not found (Linux / macOS)
 On some systems, Python is invoked as python3 instead of python.
-	•	Try running MSP with:
+- Try running MSP with:
     ```bash
     python3 main.py
-    ````
-	•	If this works, you may consistently use python3 instead of python.
+    ```
+- If this works, you may consistently use python3 instead of python.
 
 If Python is not installed, download it from:
 https://www.python.org/downloads/
 
 ### Executable does not find input files
 When using the Windows executable (`CH4Processor.exe` or `main.py`):
-	•	Ensure that the folder Raw data/ is located in the same directory as the executable.
-	•	Verify that input files use the .txt extension and are readable.
+- Ensure that the folder Raw data/ is located in the same directory as the executable.
+- Verify that input files use the .txt extension and are readable.
 
 ### Input file format and expected column names
 MSP assumes a specific structure for input files:
-	•	A time column expressed in seconds
-	•	A CH₄ concentration column expressed in ppm
+- A time column expressed in seconds
+- A CH₄ concentration column expressed in ppm
 
 By default, column names are expected to match those defined in inc/functions.py
 (e.g. time and methane concentration labels).
@@ -262,35 +263,35 @@ these can be adapted directly in functions.py prior to execution.
 ### Configuration of physical parameters
 Several physical parameters required for flux calculation are defined in functions.py,
 including (but not limited to):
-	•	Chamber volume
-	•	Chamber footprint area
+- Chamber volume
+- Chamber footprint area
 
 Users must update these parameters to match their experimental setup.
 They are not requested interactively at runtime in order to:
-	•	Avoid repeated manual input when processing multiple files
-	•	Ensure consistency across batch analyses
-	•	Reduce the risk of user input errors during execution
+- Avoid repeated manual input when processing multiple files
+- Ensure consistency across batch analyses
+- Reduce the risk of user input errors during execution
 
 This design choice prioritizes reproducibility and efficient batch processing.
 
 ### No ebullitive events detected
-	•	In signals with very low-amplitude fluctuations or short acquisition windows, MSP may not detect ebullitive peaks.
-	•	This does not indicate a processing error, but rather the absence of statistically significant bubble-driven events.
-	•	Users are encouraged to visually inspect the processed signal and consider the environmental context.
+- In signals with very low-amplitude fluctuations or short acquisition windows, MSP may not detect ebullitive peaks.
+- This does not indicate a processing error, but rather the absence of statistically significant bubble-driven events.
+- Users are encouraged to visually inspect the processed signal and consider the environmental context.
 
 ### Low R² values in diffusive segments
-	•	Diffusive flux estimation assumes quasi-linear CH₄ accumulation between ebullition events.
-	•	Rapid environmental changes (e.g. wind-induced turbulence, temperature shifts) may introduce non-linear behavior.
-	•	Segments with low R² values are automatically excluded to ensure robustness of diffusive flux estimates.
+- Diffusive flux estimation assumes quasi-linear CH₄ accumulation between ebullition events.
+- Rapid environmental changes (e.g. wind-induced turbulence, temperature shifts) may introduce non-linear behavior.
+- Segments with low R² values are automatically excluded to ensure robustness of diffusive flux estimates.
 
 ### Unexpected or noisy results
-	•	Verify input data formatting and consistent time sampling.
-	•	Strong sensor noise or drift may affect peak detection reliability.
-	•	While MSP includes adaptive filtering and correction steps, extremely noisy signals should be interpreted with caution.
+- Verify input data formatting and consistent time sampling.
+- Strong sensor noise or drift may affect peak detection reliability.
+- While MSP includes adaptive filtering and correction steps, extremely noisy signals should be interpreted with caution.
 
 ### Differences between sensors or deployments
-	•	MSP is sensor-agnostic, but absolute flux values depend on sensor calibration, chamber geometry, and deployment conditions.
-	•	When comparing results across sensors or sites, consistent preprocessing and calibration procedures are recommended.
+- MSP is sensor-agnostic, but absolute flux values depend on sensor calibration, chamber geometry, and deployment conditions.
+- When comparing results across sensors or sites, consistent preprocessing and calibration procedures are recommended.
 
 ## 📌 Methodological Scope and Limitations
 - MSP is designed for time-series CH₄ data acquired with floating chambers.
