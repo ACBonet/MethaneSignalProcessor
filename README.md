@@ -308,4 +308,4 @@ This design choice prioritizes reproducibility and efficient batch processing.
 This project is released as open-source.
 
 If you use MSP in your work, please cite the associated publication
-(to be updated upon acceptance).
+[https://doi.org/10.1016/J.ECOINF.2026.103781](https://doi.org/10.1016/J.ECOINF.2026.103781).
